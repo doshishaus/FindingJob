@@ -11,6 +11,7 @@ import {
   Autocomplete,
   Stack,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 const initialSurveyData: SurveyData = {
   id: "",
@@ -36,6 +37,7 @@ interface NameOption {
 export default function SurveyForm() {
   const [formData, setFormData] = useState<SurveyData>(initialSurveyData);
   const [nameOptions, setNameOptions] = useState<NameOption[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // `id.json` を読み込む
   useEffect(() => {
@@ -58,18 +60,19 @@ export default function SurveyForm() {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const response = await fetch("/api/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
-
     if (response.ok) {
-      alert("送信成功！");
+      alert("無事に保存されました！");
       setFormData(initialSurveyData);
     } else {
-      alert("送信失敗");
-    }
+      alert("送信失敗、杉下に連絡してね");
+    } 
+    setLoading(false);
   };
 
   return (
@@ -90,6 +93,7 @@ export default function SurveyForm() {
             value={formData.id}
             disabled
             sx={{ flex: 2 }}
+            required
           />
           <Stack sx={{ flex: 8 }}>
             <Autocomplete
@@ -97,7 +101,7 @@ export default function SurveyForm() {
               getOptionLabel={(option) => option.name}
               onChange={handleNameChange}
               renderInput={(params) => (
-                <TextField {...params} label="名前を選択してください" />
+                <TextField {...params} label="名前を選択してください"/>
               )}
             />
           </Stack>
@@ -111,6 +115,7 @@ export default function SurveyForm() {
             value={formData.company}
             onChange={handleChange}
             placeholder="春から行く会社を入力/非公開の場合は非公開"
+            required
           />
         </Box>
 
@@ -123,6 +128,7 @@ export default function SurveyForm() {
             value={formData.category}
             onChange={handleChange}
             placeholder="例：IT業界、コンサル業界"
+            required
           />
         </Box>
 
@@ -144,7 +150,8 @@ export default function SurveyForm() {
             value={formData.schedule}
             onChange={handleChange}
             multiline
-            rows={6}
+            maxRows={20}
+            required
           />
         </Box>
 
@@ -157,6 +164,7 @@ export default function SurveyForm() {
             value={formData.intern}
             onChange={handleChange}
             placeholder="今まで行ったインターン先を入力"
+            required
           />
         </Box>
 
@@ -172,7 +180,8 @@ export default function SurveyForm() {
             value={formData.shaft}
             onChange={handleChange}
             multiline
-            rows={4}
+            maxRows={20}
+            required
           />
         </Box>
         <Box mb={2}>
@@ -183,8 +192,9 @@ export default function SurveyForm() {
             value={formData.es}
             onChange={handleChange}
             multiline
-            rows={4}
+            maxRows={20}
             placeholder="複数ある場合は一押しを入力"
+            required
           />
         </Box>
         <Box mb={2}>
@@ -195,7 +205,8 @@ export default function SurveyForm() {
             value={formData.advice}
             onChange={handleChange}
             multiline
-            rows={4}
+            maxRows={20}
+            required
           />
         </Box>
         <Box mb={2}>
@@ -206,24 +217,26 @@ export default function SurveyForm() {
             value={formData.message}
             onChange={handleChange}
             multiline
-            rows={4}
+            maxRows={20}
+            required
           />
         </Box>
         <Box mb={2}>
           <TextField
             name="contact"
-            label="連絡先（メールアドレス推奨）"
+            label="連絡先（メールアドレス/各種SNS）"
             fullWidth
             value={formData.contact}
             onChange={handleChange}
             rows={4}
+            required
           />
         </Box>
 
         <Box my={2} textAlign="center">
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
+          <LoadingButton variant="contained" color="primary" onClick={handleSubmit} loading={loading}>
             送信
-          </Button>
+          </LoadingButton>
         </Box>
       </Stack>
     </Container>
