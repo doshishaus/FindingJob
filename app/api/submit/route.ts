@@ -1,3 +1,5 @@
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 import { NextResponse } from "next/server";
 import { db } from "..//firebase"; // 修正: firebaseの適切なimport
 import { collection, addDoc } from "firebase/firestore";
