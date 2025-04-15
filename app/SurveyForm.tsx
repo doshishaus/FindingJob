@@ -20,7 +20,7 @@ const initialSurveyData: SurveyData = {
   category: "",
   naitei: "",
   schedule:
-    "2回生の頃\n1月：\n2月：\n3月：\n3回生\n4月：\n5月：\n6月：\n7月：\n8月：\n9月：\n10月：\n11月：\n12月：\n1月：\n2月：\n3月：\n4回生\n4月：\n5月：",
+    "2回生の頃\n1月：\n2月：\n3月：\n3回生\n4月：\n5月：\n6月：\n7月：\n8月：\n9月：\n10月：\n11月：\n12月：\n1月：\n2月：\n3月：\n4回生\n4月：\n5月：\n6月：\n7月：\n8月：\n9月：\n10月：",
   intern: "",
   shaft: "建前\n｜\n本音",
   es: "",
@@ -150,7 +150,7 @@ export default function SurveyForm() {
             value={formData.schedule}
             onChange={handleChange}
             multiline
-            maxRows={20}
+            maxRows={25}
             required
           />
         </Box>
